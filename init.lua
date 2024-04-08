@@ -1,3 +1,4 @@
+require 'nvim-tree-config'
 --[[
 
 =====================================================================
@@ -90,8 +91,13 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Tree-sitter stuff
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.opt.termguicolors = true
+
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -102,7 +108,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -164,7 +170,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -319,7 +325,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = true },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -359,7 +365,6 @@ require('lazy').setup({
           },
         },
       }
-
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
@@ -597,7 +602,17 @@ require('lazy').setup({
       }
     end,
   },
-
+  {
+    -- Nvimtree (File Explorer)
+    -- Added this reference to the initial file
+    {
+      'nvim-tree/nvim-tree.lua',
+      lazy = true,
+      dependencies = {
+        'nvim-tree/nvim-web-devicons',
+      },
+    },
+  },
   { -- Autoformat
     'stevearc/conform.nvim',
     lazy = false,
@@ -784,7 +799,7 @@ require('lazy').setup({
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      statusline.setup { use_icons = true }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
@@ -852,23 +867,22 @@ require('lazy').setup({
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
+    icons = {},
+    cmd = '⌘',
+    config = '🛠',
+    event = '📅',
+    ft = '📂',
+    init = '⚙',
+    keys = '🗝',
+    plugin = '🔌',
+    runtime = '💻',
+    require = '🌙',
+    source = '📄',
+    start = '🚀',
+    task = '📌',
+    lazy = '💤 ',
   },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+--vim: ts=4 sts=4 sw=4
